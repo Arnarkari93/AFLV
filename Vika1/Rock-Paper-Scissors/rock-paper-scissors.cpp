@@ -48,6 +48,8 @@ int main()
             }
             delete []wins;
             delete []loss;
+        } else {
+        	cout << "-" << endl;
         }
         cout << endl;
         cin >> n;
