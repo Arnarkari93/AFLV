@@ -5,28 +5,25 @@ using namespace std;
 
 int main()
 {
-
+	cin.sync_with_stdio(false);
+	cout.sync_with_stdio(false);
 	int n, m; 
 	cin >> n >> m;
 	while (n != 0 || m != 0) {
 		
 		queue<int> jack;
 		queue<int> jill;
-
+		int cd;
 		for (int i = 0; i < n; ++i) {
 			
-			int cd;
 			cin >> cd;
 			jack.push(cd);
-		
 		}
 
 		for (int i = 0; i < m; ++i) {
 			
-			int jill_cd;
-			cin >> jill_cd;
-			jill.push(jill_cd);
-
+			cin >> cd;
+			jill.push(cd);
 		}
 
 		int mutualCDs = 0;
@@ -45,7 +42,7 @@ int main()
 			} else if (jack_cd < jill_cd) {
 			
 				jack.pop();
-				
+			
 			} else {
 
 				jill.pop();
