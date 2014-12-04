@@ -7,6 +7,7 @@ int main()
 {
 	cin.sync_with_stdio(false);
 	cout.sync_with_stdio(false);
+	
 	int n, m; 
 	cin >> n >> m;
 	while (n != 0 || m != 0) {
