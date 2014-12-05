@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstdlib>
-#include <list>
+#include <vector>
 #include <algorithm>
 using namespace std;
-bool is_next_to (int team1, int team2);
+
 int main()
 {
 	cin.sync_with_stdio(false);
@@ -12,59 +12,87 @@ int main()
 	int N, S, R;
 
 	cin >> N >> S >> R;
+	bool d[N]; // who has damaged boat
+	bool e[N]; // who has extra boad
 
-	int count = 0;
-
+	for (int i = 0; i < N; ++i) {
+		d[i] = false;
+		e[i] = false;
+	}
+	
 	int team;
-	list<int> damaged;
-	list<int> extra;
 	for (int i = 0; i < S; ++i) {
 		
 		cin >> team;
-		damaged.push_back(team);
+		team--;
+		d[team] = true;
 	}
 
-	for (int i = 0; i < R; ++i)
-	{
+	for (int i = 0; i < R; ++i) {
 		cin >> team;
-		extra.push_back(team);
+		team--;
+		e[team] = true;
 	}
 
-	damaged.sort();
-	extra.sort();
-	
-	while(!damaged.empty() && !extra.empty()) {
+	int count = 0;
+	for (int i = 0; i < N; ++i)
+	{
+		if( d[i] && e[i] ) { // damaged kayak and has extra
+			
+			d[i] = false;
+			e[i] = false;  
 
-		int d_f = damaged.front();
-		int r_f = extra.front();
+ 		} else if (!d[i]) { // kayak ok
 
-		if (find(damaged.begin(), damaged.end(), r_f) != damaged.end()){
+ 			continue;  
 
-			damaged.remove(r_f);
-			extra.remove(r_f);
+ 		} else { // has damaged kayak and dosen't hava an extra 
 
-		} else if ( is_next_to (r_f, d_f)) {
+			if ( i == 0) { // team 1
 
-			damaged.remove(d_f);
-			extra.remove(r_f);
+				if ( e[i + 1] && !d[i + 1] ) { // team 2 has an extra kayak to spare
 
-		} else {
+					d[i] = false;
+					e[i + 1] = false;
 
-			int d_b = damaged.back();
-			if (r_f < d_b) {
-				extra.remove(r_f);
-			} else {
-				damaged.remove(d_f);
+				} else {
+
+					count++;
+				}
+
+			} else if ( i == N - 1 ) { // team N
+
+				if ( e[i - 1] && !d[i - 1] ) { // team N - 1 has an extra kayak to spare
+
+					d[i] = false;
+					e[i - 1] = false;
+				
+				} else {
+				
+					count++;
+				}
+
+			} else {  // 1 < team < N
+
+				if ( e[i - 1] && !d[i - 1] ) { // team to the left has a kayak to spare
+
+					d[i] = false;
+					e[i - 1] = false;
+
+				} else if ( e[i + 1] && !d[i + 1] ) {  // team to the right has a kayak to spare
+
+					d[i] = false;
+					e[i + 1] = false;
+
+				} else { 
+
+					count++;
+				}
 			}
 		}
 	}
 
-	cout << damaged.size() << endl;
+	cout << count << endl;
 
 	return 0;
-}
-
-bool is_next_to (int team1, int team2) 
-{
-	return((team1 == (team2 - 1)) || (team1 == (team2 + 1)));
 }
