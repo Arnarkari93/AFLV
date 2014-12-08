@@ -19,6 +19,8 @@ int main()
 		if(infected[index] == original[index])
 		{
 			index++;
+		} else {
+			break;
 		}
 	}
 	//cout << index << endl;
@@ -42,6 +44,8 @@ int main()
 		if(infected[index] == original[index])
 		{
 			index++;
+		} else {
+			break;
 		}
 	}
 
